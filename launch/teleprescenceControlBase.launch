@@ -1,0 +1,16 @@
+<launch>
+
+  <!-- iRobotControl Node -->
+  <node name="iRobotControl"          pkg="irobot_control_base"  type="iRobotControl.py" output="screen">
+  </node>
+  <!-- RpLidar Receiver Node -->
+  <node name="rpLidarRecNode"          pkg="irobot_control_base"  type="laserDataReceiver.py" output="screen">
+  </node>
+  <!-- Odom Receiver Node -->
+  <node name="odomRecNode"          pkg="irobot_control_base"  type="odomDataReceiver.py" output="screen">
+  </node>
+  <!-- Slam Gmapping Node -->
+  <node name="slamNode"          pkg="gmapping"  type="slam_gmapping" output="screen">
+  </node>
+
+</launch>
