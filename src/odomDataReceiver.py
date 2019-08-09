@@ -9,10 +9,19 @@ def OdomReceiver():
     pub = rospy.Publisher('odom', Odometry, queue_size=10)
     rospy.init_node('OdomReceiver', anonymous=True)
     rate = rospy.Rate(10) # 10hz
-    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # UDP
-    sock.bind(("192.168.1.65", 4003))
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM) #TCP
+    IP = '192.168.0.3'
+    PORT= 4003
+    BUFFER_SIZE = 15024
+    sock.bind((IP, PORT))
+    sock.listen(1)
     while not rospy.is_shutdown():
-        data, addr = sock.recvfrom(15024)
+        conn, addr = s.accept()
+        print 'Connection address:', addr
+        data= conn.recv(BUFFER_SIZE)
+        conn.send(data)
+        conn.close()
+        #print data
         data = json.loads(data)
         odom = Odometry()
         odom.twist.twist.linear.y = data["twist"]["twist"]["linear"]["y"]

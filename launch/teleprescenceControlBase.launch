@@ -9,8 +9,15 @@
   <!-- Odom Receiver Node -->
   <node name="odomRecNode"          pkg="irobot_control_base"  type="odomDataReceiver.py" output="screen">
   </node>
+  <!-- Robot description -->
+  <arg name="config" default="$(find ca_driver)/config/default.yaml"/>
+  <arg name="desc" default="true"/>
+  <include if="$(arg desc)" file="$(find ca_description)/launch/create_2.launch"/>
+    <!-- TF Sensor static transformer publisher -->
+  <node pkg="tf" type="static_transform_publisher" name="lidar_broadcaster" args="0 0 0 0 0 0 1 base_link laser 100" />
+  
   <!-- Slam Gmapping Node -->
   <node name="slamNode"          pkg="gmapping"  type="slam_gmapping" output="screen">
+    <param name="odom_frame" type="string" value="odom" />
   </node>
-
 </launch>

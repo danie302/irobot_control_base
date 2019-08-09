@@ -8,12 +8,23 @@ import yaml
 def LaserReceiver():
     pub = rospy.Publisher('scan', LaserScan, queue_size=10)
     rospy.init_node('LaserReceiver', anonymous=True)
-    rate = rospy.Rate(10) # 10hz
-    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # UDP
-    sock.bind(("192.168.1.65", 4001))
+    rate = rospy.Rate(1000) # 10hz
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM) #TCP
+    IP = '192.168.0.3'
+    PORT= 4001
+    BUFFER_SIZE = 15024
+    sock.bind((IP, PORT))
+    sock.listen(1)
     while not rospy.is_shutdown():
-        data, addr = sock.recvfrom(15024)
+        conn, addr = s.accept()
+        print 'Connection address:', addr
+        data= conn.recv(BUFFER_SIZE)
+        conn.send(data)
+        conn.close()
         data = json.loads(data)
+        print "-----------------------------------------------------------------------"
+        print data["header"]["seq"]
+        print "-----------------------------------------------------------------------"
         intensities = data["intensities"]
         intensities[:] = [float(x) for x in intensities]
         ranges = data["ranges"]
