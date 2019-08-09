@@ -27,11 +27,8 @@ class Control():
 								command=self.Right).place(x=250, y=150)
 		self.btn = Button(self.root, text="Back",
 								command=self.Back).place(x=140, y=200)
-		# Configuracion TCP
-		self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-		IP = '10.154.116.54'
-		PORT = 4002
-		BUFFER_SIZE = 1024
+		# Configuracion UDP
+		self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
 		# Boton para terminar el programa
 		self.bcl = Button(self.root, text='Cerrar',
@@ -40,38 +37,19 @@ class Control():
 		self.root.mainloop()
 	def Straight(self):
 		self.data = "straight"
-		self.sock.connect((IP, PORT))
-		self.sock.send(self.data)
-		self.data2 = self.sock.recv(BUFFER_SIZE)
-		self.sock.close()
-		print "received data:", self.data2
+		self.sock.sendto(self.data, ("192.168.1.68", 4002))
 	def Left(self):
 		self.data = "left"
-		self.sock.connect((IP, PORT))
-		self.sock.send(self.data)
-		self.data2 = self.sock.recv(BUFFER_SIZE)
-		self.sock.close()
-		print "received data:", self.data2
+		self.sock.sendto(self.data, ("192.168.1.68", 4002))
 	def Right(self):
 		self.data = "right"
-		self.sock.connect((IP, PORT))
-		self.sock.send(self.data)
-		self.data2 = self.sock.recv(BUFFER_SIZE)
-		self.sock.close()
-		print "received data:", self.data2
+		self.sock.sendto(self.data, ("192.168.1.68", 4002))
 	def Back(self):
 		self.data = "back"
-		self.sock.connect((IP, PORT))
-		self.sock.send(self.data)
-		self.data2 = self.sock.recv(BUFFER_SIZE)
-		self.sock.close()
-		print "received data:", self.data2
+		self.sock.sendto(self.data, ("192.168.1.68", 4002))
 	def Stop(self):
 		self.data = "stop"
-		self.sock.connect((IP, PORT))
-		self.sock.send(self.data)
-		self.data2 = self.sock.recv(BUFFER_SIZE)
-		self.sock.close()
-		print "received data:", self.data2
+		self.sock.sendto(self.data, ("192.168.1.68", 4002))
+
 # Fin de la clase Aplicacion()
 app = Control()  # Creando objeto app de la clase Aplicacion
