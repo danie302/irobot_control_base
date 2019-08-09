@@ -10,17 +10,15 @@ def LaserReceiver():
     rospy.init_node('LaserReceiver', anonymous=True)
     rate = rospy.Rate(1000) # 10hz
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM) #TCP
-    IP = '192.168.0.3'
+    IP = '10.154.116.42'
     PORT= 4001
     BUFFER_SIZE = 15024
     sock.bind((IP, PORT))
     sock.listen(1)
+    conn, addr = sock.accept()
     while not rospy.is_shutdown():
-        conn, addr = s.accept()
         print 'Connection address:', addr
         data= conn.recv(BUFFER_SIZE)
-        conn.send(data)
-        conn.close()
         data = json.loads(data)
         print "-----------------------------------------------------------------------"
         print data["header"]["seq"]
@@ -45,6 +43,7 @@ def LaserReceiver():
         laser.intensities = intensities
         pub.publish(laser)
         rate.sleep()
+    conn.close()
 
 if __name__ == '__main__':
     try:

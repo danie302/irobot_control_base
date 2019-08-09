@@ -29,7 +29,7 @@ class Control():
 								command=self.Back).place(x=140, y=200)
 		# Configuracion TCP
 		self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-		IP = '192.168.0.5'
+		IP = '10.154.116.54'
 		PORT = 4002
 		BUFFER_SIZE = 1024
 
