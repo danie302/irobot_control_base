@@ -9,6 +9,9 @@
   <!-- Odom Receiver Node -->
   <node name="odomRecNode"          pkg="irobot_control_base"  type="odomDataReceiver.py" output="screen">
   </node>
+    <!-- tf Receiver Node -->
+  <node name="tfRecNode"          pkg="irobot_control_base"  type="tfDataReceiver.py" output="screen">
+  </node>
   <!-- Robot description -->
   <arg name="config" default="$(find ca_driver)/config/default.yaml"/>
   <arg name="desc" default="true"/>
