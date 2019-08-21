@@ -4,13 +4,15 @@ from sensor_msgs.msg import LaserScan
 import socket
 import json
 import yaml
+import os
+IP=os.environ.get("IPbaseDRI")
 
 def LaserReceiver():
     pub = rospy.Publisher('scan', LaserScan, queue_size=10)
     rospy.init_node('LaserReceiver', anonymous=True)
     rate = rospy.Rate(10) # 10hz
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # UDP
-    sock.bind(("10.154.116.42", 4001))
+    sock.bind((IP, 4001))
     while not rospy.is_shutdown():
         data, addr = sock.recvfrom(15024)
         data = json.loads(data)

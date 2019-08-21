@@ -3,6 +3,9 @@
 from Tkinter import *
 import time
 import socket
+import os
+IP=os.environ.get("IPraspDRI")
+
 fondo = 'SlateBlue'
 
 class Control():
@@ -37,19 +40,19 @@ class Control():
 		self.root.mainloop()
 	def Straight(self):
 		self.data = "straight"
-		self.sock.sendto(self.data, ("10.154.116.54", 4002))
+		self.sock.sendto(self.data, (IP, 4002))
 	def Left(self):
 		self.data = "left"
-		self.sock.sendto(self.data, ("10.154.116.54", 4002))
+		self.sock.sendto(self.data, (IP, 4002))
 	def Right(self):
 		self.data = "right"
-		self.sock.sendto(self.data, ("10.154.116.54", 4002))
+		self.sock.sendto(self.data, (IP, 4002))
 	def Back(self):
 		self.data = "back"
-		self.sock.sendto(self.data, ("10.154.116.54", 4002))
+		self.sock.sendto(self.data, (IP, 4002))
 	def Stop(self):
 		self.data = "stop"
-		self.sock.sendto(self.data, ("10.154.116.54", 4002))
+		self.sock.sendto(self.data, (IP, 4002))
 
 # Fin de la clase Aplicacion()
 app = Control()  # Creando objeto app de la clase Aplicacion

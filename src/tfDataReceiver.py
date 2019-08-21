@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 import rospy
 from nav_msgs.msg import Odometry
 import socket
@@ -12,7 +11,7 @@ def OdomReceiver():
     rospy.init_node('OdomReceiver', anonymous=True)
     rate = rospy.Rate(10) # 10hz
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # UDP
-    sock.bind((IP, 4003))
+    sock.bind(("10.154.116.42", 4003))
     while not rospy.is_shutdown():
         data, addr = sock.recvfrom(15024)
         data = json.loads(data)
