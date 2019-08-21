@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# ----------------------------------------------------------------------------
 import rospy
 from tf2_msgs.msg import TFMessage
 import socket
@@ -11,13 +13,13 @@ def tfReceiver():
     rospy.init_node('tfReceiver', anonymous=True)
     rate = rospy.Rate(10) # 10hz
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # UDP
-    sock.bind((IP, 4003))
+    sock.bind((IP, 4004))
     while not rospy.is_shutdown():
         data, addr = sock.recvfrom(15024)
         data = json.loads(data)
         tf = TFMessage()
         print data 
-        #pub.publish(tf)
+        pub.publish(tf)
         rate.sleep()
 
 if __name__ == '__main__':
