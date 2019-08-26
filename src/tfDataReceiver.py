@@ -26,15 +26,13 @@ def tfReceiver():
         if(len(data["transforms"]) == 2):
             pub.publish(doubleTf(data))
 
-        #pub.publish(tf)
         rate.sleep()
 
 
 def singleTf(data):
-    print "-----------------------------------------------"
-    #print data["transforms"][0]["header"]["stamp"]["secs"]
-    tf.header.stamp.secs= data["transforms"][0]["header"]["stamp"]["secs"]
-    tf.header.stamp.nsecs= data["transforms"][0]["header"]["stamp"]["nsecs"]
+    #tf.header.stamp.secs= data["transforms"][0]["header"]["stamp"]["secs"]
+    #tf.header.stamp.nsecs= data["transforms"][0]["header"]["stamp"]["nsecs"]
+    tf.header.stamp=rospy.Time.now()
     tf.header.frame_id= str(data["transforms"][0]["header"]["frame_id"])
     tf.header.seq= data["transforms"][0]["header"]["seq"]
     tf.child_frame_id= str(data["transforms"][0]["child_frame_id"])
@@ -49,10 +47,10 @@ def singleTf(data):
     return tfm
 
 def doubleTf(data):
-    print "-----------------------------------------------"
     global tf, tf2
-    tf.header.stamp.secs= data["transforms"][0]["header"]["stamp"]["secs"]
-    tf.header.stamp.nsecs= data["transforms"][0]["header"]["stamp"]["nsecs"]
+    #tf.header.stamp.secs= data["transforms"][0]["header"]["stamp"]["secs"]
+    #tf.header.stamp.nsecs= data["transforms"][0]["header"]["stamp"]["nsecs"]
+    tf.header.stamp=rospy.Time.now()
     tf.header.frame_id= str(data["transforms"][0]["header"]["frame_id"])
     tf.header.seq= data["transforms"][0]["header"]["seq"]
     tf.child_frame_id= str(data["transforms"][0]["child_frame_id"])
@@ -64,8 +62,9 @@ def doubleTf(data):
     tf.transform.rotation.z=data["transforms"][0]["transform"]["rotation"]["z"]
     tf.transform.rotation.w=data["transforms"][0]["transform"]["rotation"]["w"]
     #--------------------------------------------------------------------------
-    tf2.header.stamp.secs= data["transforms"][1]["header"]["stamp"]["secs"]
-    tf2.header.stamp.nsecs= data["transforms"][1]["header"]["stamp"]["nsecs"]
+    #tf2.header.stamp.secs= data["transforms"][1]["header"]["stamp"]["secs"]
+    #tf2.header.stamp.nsecs= data["transforms"][1]["header"]["stamp"]["nsecs"]
+    tf2.header.stamp=rospy.Time.now()
     tf2.header.frame_id= str(data["transforms"][1]["header"]["frame_id"])
     tf2.header.seq= data["transforms"][1]["header"]["seq"]
     tf2.child_frame_id= str(data["transforms"][1]["child_frame_id"])
@@ -85,9 +84,3 @@ if __name__ == '__main__':
         tfReceiver()
     except rospy.ROSInterruptException:
         pass
-
-{u'transforms': [{u'header': {u'stamp': {u'secs': 1565392634, u'nsecs': 190188707}, u'frame_id': u'odom', u'seq': 0}, u'transform': {u'translation': {u'y': 6.30758449915e-07, u'x': 0.000666846521199, u'z': 0.0}, u'rotation': {u'y': 0.0, u'x': 0.0, u'z': 0.000945882032209, u'w': 0.999999552653}}, u'child_frame_id': u'base_footprint'}]}
-#------------------------------------------------------------------
-#{u'transforms': [{u'header': {u'stamp': {u'secs': 1565392518, u'nsecs': 591193230}, u'frame_id': u'base_link', u'seq': 0}, u'transform': {u'translation': {u'y': 0.1175, u'x': 0.0, u'z': 0.015}, u'rotation': {u'y': 0.00617446971455, u'x': 0.0, u'z': 0.0, u'w': 0.99998093778}}, u'child_frame_id': u'left_wheel_link'}, {u'header': {u'stamp': {u'secs': 1565392518, u'nsecs': 591193230}, u'frame_id': u'base_link', u'seq': 0}, u'transform': {u'translation': {u'y': -0.1175, u'x': 0.0, u'z': 0.015}, u'rotation': {u'y': 0.0123487040309, u'x': 0.0, u'z': 0.0, u'w': 0.999923751847}}, u'child_frame_id': u'right_wheel_link'}]}
-#------------------------------------------------------------------
-

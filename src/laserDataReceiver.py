@@ -10,21 +10,24 @@ IP=os.environ.get("IPbaseDRI")
 def LaserReceiver():
     pub = rospy.Publisher('scan', LaserScan, queue_size=10)
     rospy.init_node('LaserReceiver', anonymous=True)
-    rate = rospy.Rate(10) # 10hz
+    rate = rospy.Rate(100000000) # 10hz
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # UDP
     sock.bind((IP, 4001))
     while not rospy.is_shutdown():
-        data, addr = sock.recvfrom(15024)
+        data, addr = sock.recvfrom(12824)
         data = json.loads(data)
         intensities = data["intensities"]
         intensities[:] = [float(x) for x in intensities]
         ranges = data["ranges"]
         ranges[:] = [float(x) for x in ranges]
         laser = LaserScan()
-        laser.header.stamp.secs = data["header"]["stamp"]["secs"]
-        laser.header.stamp.nsecs = data["header"]["stamp"]["nsecs"]
+        #laser.header.stamp.secs = data["header"]["stamp"]["secs"]
+        #laser.header.stamp.nsecs = data["header"]["stamp"]["nsecs"]
+        laser.header.stamp=rospy.Time.now()
         laser.header.frame_id = data["header"]["frame_id"].encode("ascii")
         laser.header.seq = data["header"]["seq"]
+        #print data["header"]["seq"]
+        print data
         laser.angle_min = data["angle_min"]
         laser.angle_max = data["angle_max"]
         laser.angle_increment = data["angle_increment"]

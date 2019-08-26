@@ -24,8 +24,9 @@ def OdomReceiver():
         odom.twist.twist.angular.x = data["twist"]["twist"]["angular"]["x"]
         odom.twist.twist.angular.z = data["twist"]["twist"]["angular"]["z"]
         odom.twist.covariance = data["twist"]["covariance"]
-        odom.header.stamp.secs = data["header"]["stamp"]["secs"]
-        odom.header.stamp.nsecs = data["header"]["stamp"]["nsecs"]
+        #odom.header.stamp.secs = data["header"]["stamp"]["secs"]
+        #odom.header.stamp.nsecs = data["header"]["stamp"]["nsecs"]
+        odom.header.stamp=rospy.Time.now()
         odom.header.frame_id = data["header"]["frame_id"]
         odom.header.seq = data["header"]["seq"]
         odom.pose.pose.position.x = data["pose"]["pose"]["position"]["x"]
