@@ -15,6 +15,8 @@ def OdomReceiver():
     sock.bind((IP, 4003))
     while not rospy.is_shutdown():
         data, addr = sock.recvfrom(15024)
+        data= yaml.load(data)
+        data= json.dumps(data, indent= 4)
         data = json.loads(data)
         odom = Odometry()
         odom.twist.twist.linear.y = data["twist"]["twist"]["linear"]["y"]

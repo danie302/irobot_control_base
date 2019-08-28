@@ -15,6 +15,8 @@ def LaserReceiver():
     sock.bind((IP, 4001))
     while not rospy.is_shutdown():
         data, addr = sock.recvfrom(12824)
+        data= yaml.load(data)
+        data= json.dumps(data, indent= 4)
         data = json.loads(data)
         intensities = data["intensities"]
         intensities[:] = [float(x) for x in intensities]

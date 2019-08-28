@@ -20,6 +20,8 @@ def tfReceiver():
     i = 0
     while not rospy.is_shutdown():
         data, addr = sock.recvfrom(15024)
+        data= yaml.load(data)
+        data= json.dumps(data, indent= 4)
         data = json.loads(data)
         if(len(data["transforms"]) == 1):
             pub.publish(singleTf(data))
