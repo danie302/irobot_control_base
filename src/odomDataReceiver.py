@@ -8,16 +8,21 @@ import os
 IP=os.environ.get("IPbaseDRI")
 
 def OdomReceiver():
-    pub = rospy.Publisher('odom', Odometry, queue_size=10)
+    pub = rospy.Publisher('odom0', Odometry, queue_size=10)
     rospy.init_node('OdomReceiver', anonymous=True)
-    rate = rospy.Rate(10) # 10hz
+    rate = rospy.Rate(100000) # 10hz
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # UDP
     sock.bind((IP, 4003))
     while not rospy.is_shutdown():
         data, addr = sock.recvfrom(15024)
+        start= time.time()
         data= yaml.load(data)
         data= json.dumps(data, indent= 4)
         data = json.loads(data)
+        end=time.time()
+        if end-start > 0.1:
+            print "Time of odom"
+            print end-start
         odom = Odometry()
         odom.twist.twist.linear.y = data["twist"]["twist"]["linear"]["y"]
         odom.twist.twist.linear.x = data["twist"]["twist"]["linear"]["x"]
@@ -26,8 +31,6 @@ def OdomReceiver():
         odom.twist.twist.angular.x = data["twist"]["twist"]["angular"]["x"]
         odom.twist.twist.angular.z = data["twist"]["twist"]["angular"]["z"]
         odom.twist.covariance = data["twist"]["covariance"]
-        #odom.header.stamp.secs = data["header"]["stamp"]["secs"]
-        #odom.header.stamp.nsecs = data["header"]["stamp"]["nsecs"]
         odom.header.stamp=rospy.Time.now()
         odom.header.frame_id = data["header"]["frame_id"]
         odom.header.seq = data["header"]["seq"]

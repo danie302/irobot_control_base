@@ -6,7 +6,8 @@ from geometry_msgs.msg import TransformStamped
 import socket
 import json
 import yaml
-import os
+import os 
+
 IP=os.environ.get("IPbaseDRI")
 tf = TransformStamped()
 tf2 =TransformStamped()
@@ -14,12 +15,13 @@ def tfReceiver():
     global tf
     pub = rospy.Publisher('tf', TFMessage, queue_size=10)
     rospy.init_node('tfReceiver', anonymous=True)
-    rate = rospy.Rate(10) # 10hz
+    rate = rospy.Rate(100000) # 10hz
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # UDP
     sock.bind((IP, 4004))
     i = 0
     while not rospy.is_shutdown():
         data, addr = sock.recvfrom(15024)
+        start= time.time()
         data= yaml.load(data)
         data= json.dumps(data, indent= 4)
         data = json.loads(data)
@@ -32,8 +34,6 @@ def tfReceiver():
 
 
 def singleTf(data):
-    #tf.header.stamp.secs= data["transforms"][0]["header"]["stamp"]["secs"]
-    #tf.header.stamp.nsecs= data["transforms"][0]["header"]["stamp"]["nsecs"]
     tf.header.stamp=rospy.Time.now()
     tf.header.frame_id= str(data["transforms"][0]["header"]["frame_id"])
     tf.header.seq= data["transforms"][0]["header"]["seq"]
@@ -50,8 +50,6 @@ def singleTf(data):
 
 def doubleTf(data):
     global tf, tf2
-    #tf.header.stamp.secs= data["transforms"][0]["header"]["stamp"]["secs"]
-    #tf.header.stamp.nsecs= data["transforms"][0]["header"]["stamp"]["nsecs"]
     tf.header.stamp=rospy.Time.now()
     tf.header.frame_id= str(data["transforms"][0]["header"]["frame_id"])
     tf.header.seq= data["transforms"][0]["header"]["seq"]
@@ -63,9 +61,6 @@ def doubleTf(data):
     tf.transform.rotation.y=data["transforms"][0]["transform"]["rotation"]["y"]
     tf.transform.rotation.z=data["transforms"][0]["transform"]["rotation"]["z"]
     tf.transform.rotation.w=data["transforms"][0]["transform"]["rotation"]["w"]
-    #--------------------------------------------------------------------------
-    #tf2.header.stamp.secs= data["transforms"][1]["header"]["stamp"]["secs"]
-    #tf2.header.stamp.nsecs= data["transforms"][1]["header"]["stamp"]["nsecs"]
     tf2.header.stamp=rospy.Time.now()
     tf2.header.frame_id= str(data["transforms"][1]["header"]["frame_id"])
     tf2.header.seq= data["transforms"][1]["header"]["seq"]

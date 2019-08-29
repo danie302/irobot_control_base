@@ -11,7 +11,7 @@ IP=os.environ.get("IPbaseDRI")
 def tfReceiver():
     pub = rospy.Publisher('tf_static', TFMessage, queue_size=10)
     rospy.init_node('tfStaticReceiver', anonymous=True)
-    rate = rospy.Rate(10) # 10hz
+    rate = rospy.Rate(1000000) # 10hz
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # UDP
     sock.bind((IP, 4005))
     i = 0
@@ -23,8 +23,6 @@ def tfReceiver():
         array = []
         for x in range(0, 8):
             tf = TransformStamped()
-            #tf.header.stamp.secs= data["transforms"][x]["header"]["stamp"]["secs"]
-            #tf.header.stamp.nsecs= data["transforms"][x]["header"]["stamp"]["nsecs"]
             tf.header.stamp=rospy.Time.now()
             tf.header.frame_id= str(data["transforms"][x]["header"]["frame_id"])
             tf.header.seq= data["transforms"][x]["header"]["seq"]
@@ -38,8 +36,6 @@ def tfReceiver():
             tf.transform.rotation.w=data["transforms"][x]["transform"]["rotation"]["w"]
             array.append(tf)
         tfm = TFMessage([array[0],array[1],array[2],array[3],array[4],array[5],array[6],array[7]])
-        print "--------------------------------------"
-        print tfm
         pub.publish(tfm)
         rate.sleep()
 
