@@ -15,14 +15,9 @@ def OdomReceiver():
     sock.bind((IP, 4003))
     while not rospy.is_shutdown():
         data, addr = sock.recvfrom(15024)
-        start= time.time()
         data= yaml.load(data)
         data= json.dumps(data, indent= 4)
         data = json.loads(data)
-        end=time.time()
-        if end-start > 0.1:
-            print "Time of odom"
-            print end-start
         odom = Odometry()
         odom.twist.twist.linear.y = data["twist"]["twist"]["linear"]["y"]
         odom.twist.twist.linear.x = data["twist"]["twist"]["linear"]["x"]

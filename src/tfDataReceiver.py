@@ -21,7 +21,6 @@ def tfReceiver():
     i = 0
     while not rospy.is_shutdown():
         data, addr = sock.recvfrom(15024)
-        start= time.time()
         data= yaml.load(data)
         data= json.dumps(data, indent= 4)
         data = json.loads(data)

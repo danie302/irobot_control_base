@@ -26,4 +26,14 @@
   <node name="slamNode"          pkg="gmapping"  type="slam_gmapping" output="screen">
     <param name="odom_frame" type="string" value="odom" />
   </node>
+  <!-- Kalman filter Node -->
+  <node pkg="robot_localization" type="ekf_localization_node" name="ekf_se" clear_params="true">
+    <rosparam command="load" file="$(find robot_localization)/params/ekfslam.yaml" />
+  </node> 
+    <!--  Placeholder for output topic remapping
+    <remap from="odometry/filtered" to=""/>
+    <remap from="accel/filtered" to=""/>
+    -->
+
+  <node name="twistPub"     pkg="irobot_control_base"  type="cloneTopic.py" output="screen"></node>
 </launch>
