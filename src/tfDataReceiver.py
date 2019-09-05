@@ -15,7 +15,7 @@ def tfReceiver():
     global tf
     pub = rospy.Publisher('tf', TFMessage, queue_size=10)
     rospy.init_node('tfReceiver', anonymous=True)
-    rate = rospy.Rate(100000) # 10hz
+    rate = rospy.Rate(1000000) # 10hz
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # UDP
     sock.bind((IP, 4004))
     i = 0

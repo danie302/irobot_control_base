@@ -10,7 +10,7 @@ IP=os.environ.get("IPbaseDRI")
 def OdomReceiver():
     pub = rospy.Publisher('odom0', Odometry, queue_size=10)
     rospy.init_node('OdomReceiver', anonymous=True)
-    rate = rospy.Rate(100000) # 10hz
+    rate = rospy.Rate(1000000) # 10hz
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # UDP
     sock.bind((IP, 4003))
     while not rospy.is_shutdown():

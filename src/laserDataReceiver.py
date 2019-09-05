@@ -10,7 +10,7 @@ IP=os.environ.get("IPbaseDRI")
 def LaserReceiver():
     pub = rospy.Publisher('scan', LaserScan, queue_size=10)
     rospy.init_node('LaserReceiver', anonymous=True)
-    rate = rospy.Rate(100000) # 10hz
+    rate = rospy.Rate(500000) # 10hz
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # UDP
     sock.bind((IP, 4001))
     while not rospy.is_shutdown():

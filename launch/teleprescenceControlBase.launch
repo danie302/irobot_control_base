@@ -25,6 +25,7 @@
   <!-- Slam Gmapping Node -->
   <node name="slamNode"          pkg="gmapping"  type="slam_gmapping" output="screen">
     <param name="odom_frame" type="string" value="odom" />
+    <param name="map_update_interval" value="2.0"/>
   </node>
   <!-- Kalman filter Node -->
   <node pkg="robot_localization" type="ekf_localization_node" name="ekf_se" clear_params="true">
