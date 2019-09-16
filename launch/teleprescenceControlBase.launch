@@ -3,9 +3,10 @@
     <!-- TF Sensor static transformer publisher -->
   <node pkg="tf" type="static_transform_publisher" name="lidar_broadcaster" args="0 0 0 0 0 0 1 base_link laser 100" />
   
-  <!-- iRobotControl Node -->
+  <!-- iRobotControl Node 
   <node name="iRobotControl"          pkg="irobot_control_base"  type="iRobotControl.py" output="screen">
   </node>
+  -->
   <!-- RpLidar Receiver Node -->
   <node name="rpLidarRecNode"          pkg="irobot_control_base"  type="laserDataReceiver.py" output="screen">
   </node>
@@ -59,5 +60,8 @@
       <param name="frequency" type="double" value="1.0"/>
       <param name="goal_aliasing" type="double" value="0.5"/>
       <rosparam ns="explore_costmap" subst_value="true" file="$(find irobot_control_base)/config/exploration.yaml" command="load" />
+  </node>
+  <!-- iRobotVel Node -->
+  <node name="iRobotVel"          pkg="irobot_control_base"  type="iRobotVel.py" output="screen">
   </node>
 </launch>
