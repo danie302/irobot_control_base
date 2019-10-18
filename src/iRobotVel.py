@@ -4,15 +4,16 @@ import socket
 from geometry_msgs.msg import Twist
 import os
 
-IP=os.environ.get("IPraspiDRI")
+IP=os.environ.get("IPraspDRI")
 
 def callback(msg):
-    vel[0] = msg.linear.x
-    vel[1] = msg.linear.y 
-    vel[2] = msg.linear.z 
-    vel[3] = msg.angular.x 
-    vel[4] = msg.angular.y 
-    vel[5] = msg.angular.z
+    vel = []
+    vel.append(msg.linear.x)
+    vel.append(msg.linear.y)
+    vel.append(msg.linear.z)
+    vel.append(msg.angular.x) 
+    vel.append(msg.angular.y) 
+    vel.append(msg.angular.z)
     vel = str(vel)
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     sock.sendto(vel, (IP, 4005))
