@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import rospy
+import os
 from nav_msgs.msg import OccupancyGrid
 
 def callback(msg):
@@ -7,7 +8,8 @@ def callback(msg):
     height = msg.info.height
     resolution = msg.info.resolution
     map = msg.data 
-    with open("map.txt","w") as f:
+    dir = os.path.dirname(os.path.abspath(__file__)) + '/map.txt'
+    with open(dir,"w") as f:
         f.write(str(map))
 
 

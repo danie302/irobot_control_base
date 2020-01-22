@@ -4,7 +4,7 @@ from Tkinter import *
 import time
 import socket
 import os
-IP=os.environ.get("IPraspDRI")
+IP=os.environ.get("IPraspiDRI")
 
 fondo = 'SlateBlue'
 
