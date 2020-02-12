@@ -5,7 +5,7 @@ import socket
 import json
 import yaml
 import os
-IP=os.environ.get("IPbaseDRI")
+IP="daniel.local"
 
 def OdomReceiver():
     pub = rospy.Publisher('odom0', Odometry, queue_size=10)

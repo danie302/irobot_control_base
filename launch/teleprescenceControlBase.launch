@@ -1,28 +1,71 @@
 <launch>
 
-    <!-- TF Sensor static transformer publisher -->
-  <node pkg="tf" type="static_transform_publisher" name="lidar_broadcaster" args="0 0 0.1 3.14 0 0 base_link laser 100" />
-  
+    <!-- TF Sensor static transformer publisher 
+  <node pkg="tf" type="static_transform_publisher" name="lidar_broadcaster" args="0 0 0.1 0 0 0 base_link laser_frame 100" />
+  -->
   <!-- iRobotControl Node 
   <node name="iRobotControl"          pkg="irobot_control_base"  type="iRobotControl.py" output="screen">
-  </node>
-  -->
-  <!-- RpLidar Receiver Node -->
+  </node>-->
+  
+  <!-- RpLidar Receiver Node 
   <node name="rpLidarRecNode"          pkg="irobot_control_base"  type="laserDataReceiver.py" output="screen">
   </node>
-  <!-- Odom Receiver Node -->
+  -->
+
+  <!-- Sweep Lidar Receiver Node -->
+    <!-- run sweep_node node 
+    <node name="sweep_node"          pkg="sweep_ros"  type="sweep_node" output="screen">
+            <param name="serial_port"         type="string" value="/dev/ttyUSB0"/>
+            <param name="serial_baudrate"     type="int"    value="115200"/>
+            <param name="frame_id"            type="string" value="laser_frame"/>
+    </node>-->
+
+    <!-- run pointcloud_to_laserscan node 
+    <node pkg="pointcloud_to_laserscan" type="pointcloud_to_laserscan_node" name="pointcloud_to_laserscan">
+
+        <remap from="cloud_in" to="pc2"/>
+        <rosparam>
+            target_frame: laser_frame # Leave disabled to output scan in pointcloud frame
+            transform_tolerance: 0.001
+            min_height: -1.0
+            max_height: 1.0
+
+            angle_min: -3.14 # -M_PI/2
+            angle_max: 3.14 # M_PI/2
+            angle_increment: 0.01 # M_PI/360.0
+            scan_time: 0.5
+            range_min: 0.0
+            range_max: 40.0
+            use_inf: true
+
+            # Concurrency level, affects number of pointclouds queued for processing and number of threads used
+            # 0 : Detect number of cores
+            # 1 : Single threaded
+            # 2->inf : Parallelism level
+            concurrency_level: 1
+        </rosparam>
+
+    </node>-->
+
+
+
+
+
+  <!-- Odom Receiver Node 
   <node name="odomRecNode"          pkg="irobot_control_base"  type="odomDataReceiver.py" output="screen">
-  </node>
-    <!-- tf Receiver Node -->
+  </node>-->
+    <!-- tf Receiver Node 
   <node name="tfRecNode"          pkg="irobot_control_base"  type="tfDataReceiver.py" output="screen">
-  </node>
-  <!-- tf_static Receiver Node -->
+  </node>-->
+  <!-- tf_static Receiver Node 
   <node name="tfStaticRecNode"          pkg="irobot_control_base"  type="tfStaticDataReceiver.py" output="screen">
-  </node>
+  </node>-->
   <!-- Robot description -->
+  <!--
   <arg name="config" default="$(find ca_driver)/config/default.yaml"/>
   <arg name="desc" default="true"/>
   <include if="$(arg desc)" file="$(find ca_description)/launch/create_2.launch"/>
+  -->
   <!-- Slam Gmapping Node -->
   <node name="slamNode"          pkg="gmapping"  type="slam_gmapping" output="screen">
     <param name="odom_frame" type="string" value="odom" />
@@ -30,19 +73,20 @@
     <param name="xmin" value="-10"/>
     <param name="xmax" value="10"/>
     <param name="ymin" value="-10"/>
-    <param name="ymax" value="10"/>
+    <param name="ymax" value="10"/> 
     <param name="delta" value="0.09"/>
   </node>
   <!-- MapMatrix 
   -->
   <node name="mapMatrix"          pkg="irobot_control_base"  type="mapMatrix.py" output="screen">
   </node>
-  <!-- iRobotVel Node -->
+  <!-- iRobotVel Node 
   <node name="iRobotVel"          pkg="irobot_control_base"  type="iRobotVel.py" output="screen">
-  </node>
-<!-- Kalman filter Node -->
+  </node>-->
+<!-- Kalman filter Node 
   <node pkg="robot_localization" type="ekf_localization_node" name="ekf_se" clear_params="true">
     <rosparam command="load" file="$(find irobot_control_base)/config/ekfslam.yaml" />
-  </node> 
+    <remap from="odometry/filtered" to="odom" />
+  </node> -->
 </launch>
 

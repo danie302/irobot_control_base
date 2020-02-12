@@ -8,7 +8,7 @@ import json
 import yaml
 import os 
 
-IP=os.environ.get("IPbaseDRI")
+IP="daniel.local"
 tf = TransformStamped()
 tf2 =TransformStamped()
 def tfReceiver():

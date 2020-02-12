@@ -4,7 +4,7 @@ import socket
 from geometry_msgs.msg import Twist
 import os
 
-IP=os.environ.get("IPraspDRI")
+IP="ubuntu.local"
 
 def callback(msg):
     vel = []

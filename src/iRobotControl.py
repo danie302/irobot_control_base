@@ -4,7 +4,7 @@ from Tkinter import *
 import time
 import socket
 import os
-IP=os.environ.get("IPraspiDRI")
+IP="ubuntu.local"
 
 fondo = 'SlateBlue'
 
@@ -41,17 +41,22 @@ class Control():
 	def Straight(self):
 		self.data = "straight"
 		self.sock.sendto(self.data, (IP, 4002))
+		print(self.data)
 	def Left(self):
 		self.data = "left"
+		print(self.data)
 		self.sock.sendto(self.data, (IP, 4002))
 	def Right(self):
 		self.data = "right"
+		print(self.data)
 		self.sock.sendto(self.data, (IP, 4002))
 	def Back(self):
 		self.data = "back"
+		print(self.data)
 		self.sock.sendto(self.data, (IP, 4002))
 	def Stop(self):
 		self.data = "stop"
+		print(self.data)
 		self.sock.sendto(self.data, (IP, 4002))
 
 # Fin de la clase Aplicacion()

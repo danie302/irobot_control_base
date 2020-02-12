@@ -7,7 +7,7 @@ import socket
 import json
 import yaml
 import os
-IP=os.environ.get("IPbaseDRI")
+IP="daniel.local"
 def tfReceiver():
     pub = rospy.Publisher('tf_static', TFMessage, queue_size=10)
     rospy.init_node('tfStaticReceiver', anonymous=True)
